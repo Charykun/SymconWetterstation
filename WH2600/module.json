@@ -1,0 +1,16 @@
+{
+  "id": "{C1B8CEF7-1B5B-43E2-9930-78088746E22B}",
+  "name": "WH2600",
+  "type": 3,
+  "vendor": "",
+  "aliases":
+  [
+    "FOSHK WH2600",
+    "Froggit WH2601 LAN",
+    "Renkforce WH2600"
+  ],
+  "parentRequirements": [],
+  "childRequirements": [],
+  "implemented": [],
+  "prefix": "WH2600"
+}

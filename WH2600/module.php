@@ -91,7 +91,7 @@
             }
             // $url = 'http://wh2600demo.neddix.com/livedata.htm';
             $url = 'http://' . $this->ReadPropertyString("IPAddress") . '/livedata.htm';
-            $html = @file_get_contents($url);
+            $html = @Sys_GetURLContent($url);
             if(empty($html))
             {
                 $this->SetStatus(200);

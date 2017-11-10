@@ -126,7 +126,7 @@
                 switch ($name)
                 {
                     case 'inTemp':
-                        $this->SetValue($this->GetIDForIdent($name), $value);
+                        $this->SetValue($this->GetIDForIdent($name), (float)$value);
                         break;
                     case 'inHumi':
                         $this->SetValue($this->GetIDForIdent($name), $value);

@@ -38,23 +38,25 @@
                 $this->SetStatus(104);
                 $this->SetTimerInterval('Update', 0);
             }
-            $this->RegisterVariableFloat('inTemp','Indoor Temperature','~Temperature',1);
-            $this->RegisterVariableFloat('inHumi','Indoor Humidity','~Humidity.F',2);
-            $this->RegisterVariableFloat('AbsPress','Absolute Pressure','~AirPressure.F',3);
-            $this->RegisterVariableFloat('RelPress','Relative Pressure','~AirPressure.F',4);
-            $this->RegisterVariableFloat('outTemp','Outdoor Temperature','~Temperature',5);
-            $this->RegisterVariableFloat('outHumi','Outdoor Humidity','~Humidity.F',6);
-            $this->RegisterVariableFloat('windir','Wind Direction','~WindDirection.Text',7);
-            $this->RegisterVariableFloat('avgwind','Wind Speed','~WindSpeed.kmh',8);
-            $this->RegisterVariableFloat('gustspeed','Wind Gust','~WindSpeed.kmh',9);
-            $this->RegisterVariableFloat('solarrad','Solar Radiation','',10);
-            $this->RegisterVariableInteger('uv','UV','',11);
-            $this->RegisterVariableInteger('uvi','UVI','~UVIndex',12);
-            $this->RegisterVariableFloat('rainofhourly','Hourly Rain Rate','~Rainfall',13);
-            $this->RegisterVariableFloat('rainofdaily','Daily Rain','~Rainfall',14);
-            $this->RegisterVariableFloat('rainofweekly','Weekly Rain','~Rainfall',15);
-            $this->RegisterVariableFloat('rainofmonthly','Monthly Rain','~Rainfall',16);
-            $this->RegisterVariableFloat('rainofyearly','Yearly Rain','~Rainfall',17);
+            $this->RegisterVariableBoolean('inBattSta', 'Indoor Battery Status', '~Battery', 1);
+            $this->RegisterVariableBoolean('outBattSta', 'Outdoor Battery Status', '~Battery', 2);
+            $this->RegisterVariableFloat('inTemp','Indoor Temperature','~Temperature',3);
+            $this->RegisterVariableFloat('inHumi','Indoor Humidity','~Humidity.F',4);
+            $this->RegisterVariableFloat('AbsPress','Absolute Pressure','~AirPressure.F',5);
+            $this->RegisterVariableFloat('RelPress','Relative Pressure','~AirPressure.F',6);
+            $this->RegisterVariableFloat('outTemp','Outdoor Temperature','~Temperature',7);
+            $this->RegisterVariableFloat('outHumi','Outdoor Humidity','~Humidity.F',8);
+            $this->RegisterVariableFloat('windir','Wind Direction','~WindDirection.Text',9);
+            $this->RegisterVariableFloat('avgwind','Wind Speed','~WindSpeed.kmh',10);
+            $this->RegisterVariableFloat('gustspeed','Wind Gust','~WindSpeed.kmh',11);
+            $this->RegisterVariableFloat('solarrad','Solar Radiation','~Illumination.F',12);
+            $this->RegisterVariableInteger('uv','UV','',13);
+            $this->RegisterVariableInteger('uvi','UVI','~UVIndex',14);
+            $this->RegisterVariableFloat('rainofhourly','Hourly Rain Rate','~Rainfall',15);
+            $this->RegisterVariableFloat('rainofdaily','Daily Rain','~Rainfall',16);
+            $this->RegisterVariableFloat('rainofweekly','Weekly Rain','~Rainfall',17);
+            $this->RegisterVariableFloat('rainofmonthly','Monthly Rain','~Rainfall',18);
+            $this->RegisterVariableFloat('rainofyearly','Yearly Rain','~Rainfall',19);
         }
 
         public function GetConfigurationForm()
@@ -102,6 +104,21 @@
             $dom = new DOMDocument();
             libxml_use_internal_errors(true);
             $dom->loadHTML($html);
+            foreach($dom->getElementsByTagName('select') as $tag)
+            {
+                $name = $tag->getAttribute('name');
+                if($name == 'inBattSta' or 'outBattSta')
+                {
+                    foreach ($tag->getElementsByTagName('option') as $child)
+                    {
+                        if($child->hasAttribute('selected'))
+                        {
+                            $value = $child->getAttribute('value');
+                            $this->SetValue($this->GetIDForIdent($name), $value);
+                        }
+                    }
+                }
+            }
             foreach($dom->getElementsByTagName('input') as $tag)
             {
                 $name = $tag->getAttribute('name');
